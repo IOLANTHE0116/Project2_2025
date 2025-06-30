@@ -1,15 +1,19 @@
 import RPi.GPIO as GPIO
 import time
-#GPIO SETUP
-channel =4
-GPI0.setmode(GPIO.BCM)
-GPI0.setup(channel,GPIO.IN)
-def callback(channel):
-  if GPIo.input(channel):
-    print("water Detected!")
+
+# 设置 GPIO 引脚
+channel = 21 # 对应物理引脚40
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(channel, GPIO.IN)
+
+try:
+while True:
+if GPIO.input(channel) == GPIO.LOW:
+print("Wet")
 else:
-    print("water Detected!")
-GPIO.add event detect(channel, GpIO.BoTH, bouncetime=300)# let us know when the pin goes HIGH Or LOW
-GPIO.add event callback(channel, callback)# assign function to GPlo PIN, Run function on change
-# infinite loopwhile True:
-time.sleep(0)
+print("Dry")
+time.sleep(1)
+except KeyboardInterrupt:
+print("Terminate")
+finally:
+GPIO.cleanup()
