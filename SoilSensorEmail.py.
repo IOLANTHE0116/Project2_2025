@@ -8,8 +8,8 @@ from datetime import datetime
 # CONFIGURATION - UPDATE THESE VALUES
 SMTP_SERVER = "smtp.qq.com"       # QQ Mail SMTP server
 SMTP_PORT = 587                   # QQ Mail SMTP port
-FROM_EMAIL = "your_email@qq.com"  # REPLACE_WITH_THE_SENDER_EMAIL
-FROM_PASSWORD = "your_app_password" # REPLACE_WITH_THE_SENDER_EMAIL_APP_PASSWORD
+FROM_EMAIL = "3599127710@qq.com"  # REPLACE_WITH_THE_SENDER_EMAIL
+FROM_PASSWORD = "ViatinUriel" # REPLACE_WITH_THE_SENDER_EMAIL_APP_PASSWORD
 TO_EMAIL = "2948174837@qq.com"    # REPLACE_WITH_THE_RECIPIENT_EMAIL
 SENSOR_PIN = 17                   # GPIO pin connected to sensor's digital output
 
@@ -79,7 +79,7 @@ Sensor Pin: GPIO{SENSOR_PIN}
 #SCHEDULED MONITORING
 def setup_schedule():
     """Configure daily email schedule at 4 fixed times"""
-    schedule_times = ["07:00", "10:00", "13:00", "16:00"]  # 4 daily checks
+    schedule_times = ["07:00", "13:00", "16:00"]  # 3 daily checks
     for t in schedule_times:
         schedule.every().day.at(t).do(send_plant_status)
         print(f"Scheduled status check at {t} daily")
