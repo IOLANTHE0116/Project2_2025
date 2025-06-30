@@ -8,16 +8,16 @@ from datetime import datetime
 # CONFIGURATION - UPDATE THESE VALUES
 SMTP_SERVER = "smtp.qq.com"       # QQ Mail SMTP server
 SMTP_PORT = 587                   # QQ Mail SMTP port
-FROM_EMAIL = "3599127710@qq.com"  # REPLACE_WITH_THE_SENDER_EMAIL
-FROM_PASSWORD = "ViatinUriel" # REPLACE_WITH_THE_SENDER_EMAIL_APP_PASSWORD
-TO_EMAIL = "2948174837@qq.com"    # REPLACE_WITH_THE_RECIPIENT_EMAIL
+FROM_EMAIL = "3599127710@qq.com"  # Sender email
+FROM_PASSWORD = "ViatinUriel"     # Sender email app password
+TO_EMAIL = "2948174837@qq.com"    # Recipient email
 SENSOR_PIN = 17                   # GPIO pin connected to sensor's digital output
 
-#SENSOR SETUP
+# SENSOR SETUP
 sensor = Button(SENSOR_PIN, pull_up=True, bounce_time=0.2)
 water_needed = not sensor.is_pressed  # Initial status
 
-#SENSOR CALLBACK FUNCTIONS
+# SENSOR CALLBACK FUNCTIONS
 def on_water_detected():
     """Triggered when moisture detected (sensor pressed)"""
     global water_needed
@@ -41,27 +41,28 @@ def send_plant_status():
         # Create message object
         msg = EmailMessage()
         
-        # Get current time and status
+        # Get current time
         current_time = datetime.now()
         timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-        status = "NEEDS WATERING" if water_needed else "HYDRATED"
+        date_str = current_time.strftime('%Y-%m-%d')  # Date only for body
         
-        # Set email content
+        # Determine status based on sensor reading
+        if water_needed:
+            status = "Plant needs watering！！"
+        else:
+            status = "Plant does Not need watering."
+        
+        # Set email content as per your request
         body = f"""Plant Status Report
+Timestamp：{date_str} Current Condition：{status}"""
         
-Timestamp: {timestamp}
-Current Condition: {status}
-Action: {"Water the plant" if water_needed else "No action needed"}
-
-System: Raspberry Pi Plant Monitoring
-Sensor Pin: GPIO{SENSOR_PIN}
-"""
         msg.set_content(body)
         
-        # Set email headers
+        # Set email headers with required format
+        time_str = current_time.strftime('%H:%M')
         msg['From'] = FROM_EMAIL
         msg['To'] = TO_EMAIL
-        msg['Subject'] = f"Plant Alert: {status} - {current_time.strftime('%H:%M')}"
+        msg['Subject'] = f"【Plant Dally】 {status} {time_str}"
         
         # Send email via SMTP
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
@@ -76,20 +77,20 @@ Sensor Pin: GPIO{SENSOR_PIN}
         print(f"[{timestamp}] Email failed: {str(e)}")
         return False
 
-#SCHEDULED MONITORING
+# SCHEDULED MONITORING
 def setup_schedule():
-    """Configure daily email schedule at 4 fixed times"""
-    schedule_times = ["07:00", "13:00", "16:00"]  # 3 daily checks
+    """Configure daily email schedule at 7:00, 16:00, 19:00"""
+    schedule_times = ["07:00", "16:00", "19:00"]  # Your requested times
     for t in schedule_times:
         schedule.every().day.at(t).do(send_plant_status)
         print(f"Scheduled status check at {t} daily")
 
-#MAIN EXECUTION
+# MAIN EXECUTION
 if __name__ == "__main__":
     print("\n===== Plant Moisture Monitoring System =====")
     print(f"Notification Recipient: {TO_EMAIL}")
     print(f"Using sensor on GPIO {SENSOR_PIN}")
-    print("Scheduled times: 07:00, 16:00,19:00")
+    print("Scheduled times: 07:00, 16:00, 19:00")
     
     setup_schedule()
     print("\nSystem running. Press Ctrl+C to exit.\n")
