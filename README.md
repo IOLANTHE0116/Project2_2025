@@ -25,3 +25,10 @@ Steps
 5.Low-power operation mode
 6.Detecting leaks in irrigation systems
 7.Predicting crop yields
+
+PROJECT OVERVIEW
+Project Type: Agile loT Sensor Syster
+Platform ：Raspbeny Pi
+Sensor: Digital Soil Moisture Sensor
+Output Email alerts via SMTP
+Development: Managed via Scrum + Sprint + Burndown chart
