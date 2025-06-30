@@ -89,7 +89,7 @@ if __name__ == "__main__":
     print("\n===== Plant Moisture Monitoring System =====")
     print(f"Notification Recipient: {TO_EMAIL}")
     print(f"Using sensor on GPIO {SENSOR_PIN}")
-    print("Scheduled times: 07:00, 10:00, 13:00, 16:00")
+    print("Scheduled times: 07:00, 16:00,19:00")
     
     setup_schedule()
     print("\nSystem running. Press Ctrl+C to exit.\n")
